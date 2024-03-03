@@ -1,34 +1,21 @@
-const express = require('express');
+const express = require("express");
+const zod = require("zod")
 
 const app = express();
 
-function userMiddleWare(req, res, next){
-  const userName = req.headers.userName;
-  const password = req.headers.password;
+app.use(express.json()); 
 
-  if(userName != "Pratik" || password != "Pass"){
-    res.status(403).json({
-      msg: "Incorrect Creds"
-    })
-  }else{
-    next();
-  }
-}
+app.post("/health-checkup", function(req, res) {
+  const kidneys = req.body.kidneys;
+  const kidneyLength = kidneys.length;
 
-function kidneyMiddleWare(req, res, next){
-  const kidneyId = req.query.kidneyId;
+  res.send(`You have ${kidneyLength} kidneys`)
+});
 
-  if(kidneyId != 1 || kidneyId != 2){
-    res.status(403).json({
-      msg: "Incorrect kidney no."
-    })
-  }else{
-    next();
-  }
-}
-
-app.get("/health-checkup", userMiddleWare, kidneyMiddleWare, function(req, res){
-  res.status(200).json("Hurray!!!!");
+app.use(function(err, req, res, next){
+  res.json({
+    msg: "Something is bad with our server"
+  })
 })
 
-app.listen(3000) 
+app.listen(3000);
