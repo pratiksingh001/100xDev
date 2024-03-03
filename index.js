@@ -2,20 +2,33 @@ const express = require('express');
 
 const app = express();
 
-app.get("/health-checkup", function (req, res){
-  const username = req.headers.username;
+function userMiddleWare(req, res, next){
+  const userName = req.headers.userName;
   const password = req.headers.password;
+
+  if(userName != "Pratik" || password != "Pass"){
+    res.status(403).json({
+      msg: "Incorrect Creds"
+    })
+  }else{
+    next();
+  }
+}
+
+function kidneyMiddleWare(req, res, next){
   const kidneyId = req.query.kidneyId;
 
-  if(username != "pratik" || password != "pass"){
-    res.status(400).json({msg: "Something is not good with your input"})
+  if(kidneyId != 1 || kidneyId != 2){
+    res.status(403).json({
+      msg: "Incorrect kidney no."
+    })
+  }else{
+    next();
   }
+}
 
-  if(kidneyId != 1 && kidneyId != 2){
-    res.status(400).json({msg: "something is wrong with your input"})
-  }
-
-  res.status(200).json({msg:"Hurray!! everything is good"})
+app.get("/health-checkup", userMiddleWare, kidneyMiddleWare, function(req, res){
+  res.status(200).json("Hurray!!!!");
 })
 
 app.listen(3000) 
