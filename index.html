@@ -18,6 +18,17 @@
         // element.innerHTML = `The sum of ${num1} and ${num2} is ${num1 + num2}`
         console.log(element)
     }
+    async function findInterest(){
+        const pri = document.getElementById("principal").value;
+        const rate = document.getElementById("rate").value;
+        const time = document.getElementById("time").value;
+        const resSum = await fetch(`http://localhost:3000/interest?pri=${pri}&rate=${rate}&time=${time}`);
+        const ans = await resSum.json();
+        const element = document.getElementById("final-interest")
+        element.innerHTML = `The interest is ${ans.interest} and final amount is ${ans.tamount}`
+        // element.innerHTML = `The sum of ${num1} and ${num2} is ${num1 + num2}`
+        console.log(element)
+    }
 </script>
 <body>
     <input id="firstNum" type="number" placeholder="First number"></input>
@@ -28,6 +39,20 @@
     <button onclick="findSum()">Calculate sum</button>
     <br />
     <div id="final-sum"></div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <input id="principal" type="text" placeholder="Principal amount"></input>
+    <br />
+    <input id="rate" type="text" placeholder="Rate"></input>
+    <br />
+    <input id="time" type="text" placeholder="Time"></input>
+    <br />
+    <button onclick="findInterest()">Calculate Interest</button>
+    <br />
+    <div id="final-interest"></div>
 </body>
 
 </html>
