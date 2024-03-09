@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<script>
+    async function findSum(){
+        const num1 = document.getElementById("firstNum").value;
+        const num2 = document.getElementById("secondNum").value;
+        const resSum = await fetch(`http://localhost:3000/sum?num1=${num1}&num2=${num2}`);
+        const ans = await resSum.text();
+        const element = document.getElementById("final-sum")
+        element.innerHTML = `The sum of ${num1} and ${num2} is ${ans}`
+        // element.innerHTML = `The sum of ${num1} and ${num2} is ${num1 + num2}`
+        console.log(element)
+    }
+</script>
+<body>
+    <input id="firstNum" type="number" placeholder="First number"></input>
+    <br />  
+    <input id="secondNum" type="number" placeholder="Second number"></input>
+    <br />
+    <br />
+    <button onclick="findSum()">Calculate sum</button>
+    <br />
+    <div id="final-sum"></div>
+</body>
+
+</html>
